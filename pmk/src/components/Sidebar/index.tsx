@@ -47,7 +47,7 @@ const menuGroups = [
         ),
         label: "Dashboard",
         route: "#",
-        children: [{ label: "eCommerce", route: "/" }],
+        children: [{ label: "Tampilan", route: "/" }],
       },
       {
         icon: (
@@ -123,11 +123,11 @@ const menuGroups = [
             />
           </svg>
         ),
-        label: "Forms",
+        label: "Transaksi",
         route: "#",
         children: [
-          { label: "Form Elements", route: "/forms/form-elements" },
-          { label: "Form Layout", route: "/forms/form-layout" },
+          { label: "Barang Masuk", route: "/forms/form-elements" },
+          { label: "Barang Keluar", route: "/forms/form-layout" },
         ],
       },
       {
@@ -336,13 +336,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         {/* <!-- SIDEBAR HEADER --> */}
         <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
           <Link href="/">
-            <Image
-              width={176}
-              height={32}
-              src={"/images/logo/logo.svg"}
-              alt="Logo"
-              priority
-            />
+          <p className="font-bold text-white text-xl" >Penjualan Makanan Kucing</p>
           </Link>
 
           <button
