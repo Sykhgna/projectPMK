@@ -44,11 +44,11 @@ const brandData: BRAND[] = [
   },
 ];
 
-const TableOne = () => {
+const TableUser = () => {
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
-        Top Channels
+        Table User
       </h4>
 
       <div className="flex flex-col">
@@ -120,4 +120,4 @@ const TableOne = () => {
   );
 };
 
-export default TableOne;
+export default TableUser;
