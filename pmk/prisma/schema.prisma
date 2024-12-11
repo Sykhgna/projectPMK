@@ -22,7 +22,7 @@ model User {
   user_id        Int             @id @default(autoincrement())
   username       String          @unique
   password       String
-  role           Role
+  role           Role @default(PEGAWAI)
   full_name      String?
   email          String?         @unique
   created_at     DateTime        @default(now())
