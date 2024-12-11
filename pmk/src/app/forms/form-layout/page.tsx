@@ -14,11 +14,56 @@ export const metadata: Metadata = {
 const FormLayout = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="FormLayout" />
+      <Breadcrumb pageName="Barang Keluar" />
+      
+      <div className="overflow-x-auto">
+      <table className="min-w-full border-collapse border border-gray-200 text-left text-sm">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="border border-gray-200 px-6 py-3 font-medium text-gray-900">No</th>
+            <th className="border border-gray-200 px-6 py-3 font-medium text-gray-900">Nama Barang</th>
+            <th className="border border-gray-200 px-6 py-3 font-medium text-gray-900">Jumlah</th>
+            <th className="border border-gray-200 px-6 py-3 font-medium text-gray-900">Harga</th>
+            <th className="border border-gray-200 px-6 py-3 font-medium text-gray-900">Penerima</th>
+            <th className="border border-gray-200 px-6 py-3 font-medium text-gray-900">Tanggal Keluar</th>
+            <th className="border border-gray-200 px-6 py-3 font-medium text-gray-900">Aksi</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200 bg-white">
+          <tr>
+            <td className="border border-gray-200 px-6 py-4">1</td>
+            <td className="border border-gray-200 px-6 py-4">Makanan Kucing A</td>
+            <td className="border border-gray-200 px-6 py-4">20</td>
+            <td className="border border-gray-200 px-6 py-4">Rp50.000</td>
+            <td className="border border-gray-200 px-6 py-4">John Doe</td>
+            <td className="border border-gray-200 px-6 py-4">2024-12-10</td>
+            <td className="border border-gray-200 px-6 py-4">
+              <button className="text-blue-600 hover:text-blue-800">Edit</button>
+              <button className="ml-2 text-red-600 hover:text-red-800">Hapus</button>
+            </td>
+          </tr>
+          <tr>
+            <td className="border border-gray-200 px-6 py-4">2</td>
+            <td className="border border-gray-200 px-6 py-4">Makanan Kucing B</td>
+            <td className="border border-gray-200 px-6 py-4">10</td>
+            <td className="border border-gray-200 px-6 py-4">Rp40.000</td>
+            <td className="border border-gray-200 px-6 py-4">Jane Smith</td>
+            <td className="border border-gray-200 px-6 py-4">2024-12-09</td>
+            <td className="border border-gray-200 px-6 py-4">
+              <button className="text-blue-600 hover:text-blue-800">Edit</button>
+              <button className="ml-2 text-red-600 hover:text-red-800">Hapus</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
+
+
+{/* 
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
         <div className="flex flex-col gap-9">
-          {/* <!-- Contact Form --> */}
+          <!-- Contact Form -->
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
@@ -95,7 +140,7 @@ const FormLayout = () => {
         </div>
 
         <div className="flex flex-col gap-9">
-          {/* <!-- Sign In Form --> */}
+          <!-- Sign In Form -->
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
@@ -172,7 +217,7 @@ const FormLayout = () => {
             </form>
           </div>
 
-          {/* <!-- Sign Up Form --> */}
+          <!-- Sign Up Form -->
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
@@ -232,7 +277,7 @@ const FormLayout = () => {
             </form>
           </div>
         </div>
-      </div>
+      </div> */}
     </DefaultLayout>
   );
 };

@@ -19,8 +19,6 @@ const TablesPage = () => {
 
       <div className="flex flex-col gap-10">
         <TableUser />
-        <TableProduct />
-        <TableSale />
       </div>
     </DefaultLayout>
   );

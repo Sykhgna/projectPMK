@@ -55,32 +55,27 @@ const TableUser = () => {
         <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
           <div className="p-2.5 xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Source
+              id
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Visitors
+              Nama
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Revenues
+              Email
             </h5>
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Sales
-            </h5>
-          </div>
-          <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Conversion
+              Role
             </h5>
           </div>
         </div>
 
-        {brandData.map((brand, key) => (
+        {/* {brandData.map((brand, key) => (
           <div
             className={`grid grid-cols-3 sm:grid-cols-5 ${
               key === brandData.length - 1
@@ -114,7 +109,7 @@ const TableUser = () => {
               <p className="text-meta-5">{brand.conversion}%</p>
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );
