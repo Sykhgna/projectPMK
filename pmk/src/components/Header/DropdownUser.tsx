@@ -16,21 +16,8 @@ const DropdownUser = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        // Mengambil token JWT dari localStorage (atau cookies)
-        const token = localStorage.getItem('jwtToken'); // Ganti dengan cara pengambilan token sesuai yang Anda gunakan
-        console.log('Token:', token);
-
-        if (!token) {
-          console.error('Token otorisasi tidak ditemukan');
-          return;
-        }
-
         const response = await fetch('/api/user', {
           method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`, // Menambahkan token ke header Authorization
-            'Content-Type': 'application/json',
-          },
         });
 
         if (response.ok) {
@@ -48,6 +35,23 @@ const DropdownUser = () => {
 
     fetchUser();
   }, []);
+
+  async function handleLogout() {
+    try {
+      const response = await fetch("/api/logout", {
+        method: "GET",
+      });
+  
+      if (response.ok) {
+        // Redirect ke halaman login setelah logout
+        window.location.href = "/auth/signin";
+      } else {
+        console.error("Failed to logout");
+      }
+    } catch (error) {
+      console.error("An error occurred during logout:", error);
+    }
+  }
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -171,7 +175,7 @@ const DropdownUser = () => {
               </Link>
             </li>
           </ul>
-          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+          <button onClick={handleLogout} className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
             <svg
               className="fill-current"
               width="22"

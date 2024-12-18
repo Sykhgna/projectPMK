@@ -27,20 +27,26 @@ const SignIn: React.FC = () => {
 
     try {
       const response = await axios.post("/api/login", { email, password });
-      // Assuming the API returns a token upon successful login
-      const { token } = response.data;
 
-      // Store token (you can use cookies or localStorage, but cookies are more secure)
-      document.cookie = `token=${token}; path=/`;
+      // Assuming the API returns a token and role upon successful login
+      const { token, role } = response.data;
 
-      // Redirect to a protected page after successful login
-      router.push("/");
+      // Store the token in a secure cookie (for example, HttpOnly cookies can be set on the server-side)
+      document.cookie = `token=${token}; path=/; secure; SameSite=Strict`;
+
+      // Redirect based on role
+      if (role === 'admin') {
+        router.push("/"); // Admin will be redirected to the dashboard
+      } else {
+        router.push("/forms/form-elements"); // Non-admins will be redirected to a different page
+      }
     } catch (err: any) {
       setError("Invalid credentials. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <>
       {/* <Breadcrumb pageName="Sign In" /> */}

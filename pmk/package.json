@@ -12,6 +12,7 @@
     "@prisma/client": "^5.22.0",
     "apexcharts": "^4.2.0",
     "axios": "^1.7.9",
+    "cookie": "^1.0.2",
     "flatpickr": "^4.6.13",
     "jsonwebtoken": "^9.0.2",
     "jsvectormap": "^1.6.0",

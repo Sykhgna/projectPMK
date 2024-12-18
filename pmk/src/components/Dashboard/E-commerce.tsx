@@ -1,11 +1,12 @@
 "use client";
 import dynamic from "next/dynamic";
-import React from "react";
+// import React from "react";
 import ChartOne from "../Charts/ChartOne";
 import ChartTwo from "../Charts/ChartTwo";
 import ChatCard from "../Chat/ChatCard";
 import TableOne from "../Tables/TableUser";
 import CardDataStats from "../CardDataStats";
+import React, { useEffect, useRef, useState } from "react";
 
 const MapOne = dynamic(() => import("@/components/Maps/MapOne"), {
   ssr: false,
@@ -16,6 +17,21 @@ const ChartThree = dynamic(() => import("@/components/Charts/ChartThree"), {
 });
 
 const Grafik: React.FC = () => {
+  const [totalUsers, setTotalUsers] = useState(0);
+
+  useEffect(() => {
+    const fetchTotalUsers = async () => {
+      try {
+        const response = await fetch('/api/totaluser'); // Panggil API
+        const data = await response.json();
+        setTotalUsers(data.totalUsers); // Simpan total user ke state
+      } catch (error) {
+        console.error('Failed to fetch total users:', error);
+      }
+    };
+
+    fetchTotalUsers();
+  }, []);
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
@@ -80,7 +96,7 @@ const Grafik: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Users" total="3.456" rate="0.95%" levelDown>
+        <CardDataStats title="Total Users" total={totalUsers.toLocaleString()} rate="">
           <svg
             className="fill-primary dark:fill-white"
             width="22"
