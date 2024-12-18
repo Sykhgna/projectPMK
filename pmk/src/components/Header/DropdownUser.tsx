@@ -1,10 +1,53 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
 
+interface User {
+  username: string;
+  role: string
+}
+
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        // Mengambil token JWT dari localStorage (atau cookies)
+        const token = localStorage.getItem('jwtToken'); // Ganti dengan cara pengambilan token sesuai yang Anda gunakan
+        console.log('Token:', token);
+
+        if (!token) {
+          console.error('Token otorisasi tidak ditemukan');
+          return;
+        }
+
+        const response = await fetch('/api/user', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`, // Menambahkan token ke header Authorization
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data);
+        } else {
+          console.error('Gagal mengambil data pengguna');
+        }
+      } catch (error) {
+        console.error('Terjadi kesalahan saat mengambil data pengguna:', error);
+      } finally {
+        setLoading(false); // Mengubah status loading menjadi false setelah permintaan selesai
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -15,7 +58,7 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {user ? user.username : "Loading..."}
           </span>
           <span className="block text-xs">UX Designer</span>
         </span>
