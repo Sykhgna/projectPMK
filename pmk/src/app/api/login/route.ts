@@ -1,25 +1,48 @@
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "../config";
+import { NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
+// import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
-export async function POST(request:NextRequest) {
+const prisma = new PrismaClient();
+
+export async function POST(req: Request) {
     try {
-        const {email, password}=await request.json()
+        const { email, password } = await req.json();
 
-        const user = await db.user.findFirst({where: {email}})
+        const user = await prisma.user.findUnique({ where: { email } });
+        if (!user) {
+            return NextResponse.json({ error: 'User not found' }, { status: 404 });
+        }
 
-        if(!user) return NextResponse.json({
-            success: false,
-            msg: 'user belum terdaftar'
-        },{status: 400});
+        // const isPasswordValid = await bcrypt.compare(password, user.password);
+        // if (!isPasswordValid) {
+        //     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+        // }
 
-        if(user.password !== password) return NextResponse.json({
-            success: false,
-            msg: 'invalid crendential'
-        },{status: 400});
-    } catch (error:any) {
-        return NextResponse.json({
-            success: false,
-            msg: error.message
-        },{status: 500});
+        if (password !== user.password) {
+            return NextResponse.json(
+                { error: "Invalid credentials" },
+                { status: 401 }
+            );
+        }
+
+        const token = jwt.sign({ id: user.user_id, role: user.role, username: user.username }, 'abdsjldknwifnsafns', {
+            expiresIn: '1d',
+        });
+
+        return NextResponse.json({ token }, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+    }
+}
+
+
+// GET - Retrieve all users
+export async function GET() {
+    try {
+        const users = await prisma.user.findMany();
+        return NextResponse.json(users, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 }

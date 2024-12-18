@@ -1,19 +1,49 @@
-import React from "react";
+'use client';
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
-export const metadata: Metadata = {
-  title: "Next.js SignIn Page | TailAdmin - Next.js Dashboard Template",
-  description: "This is Next.js Signin Page TailAdmin Dashboard Template",
-};
+// export const metadata: Metadata = {
+//   title: "Next.js SignIn Page | TailAdmin - Next.js Dashboard Template",
+//   description: "This is Next.js Signin Page TailAdmin Dashboard Template",
+// };
 
 const SignIn: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null); // Reset error before making the request
+
+    try {
+      const response = await axios.post("/api/login", { email, password });
+      // Assuming the API returns a token upon successful login
+      const { token } = response.data;
+
+      // Store token (you can use cookies or localStorage, but cookies are more secure)
+      document.cookie = `token=${token}; path=/`;
+
+      // Redirect to a protected page after successful login
+      router.push("/");
+    } catch (err: any) {
+      setError("Invalid credentials. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
-      <Breadcrumb pageName="Sign In" />
+      {/* <Breadcrumb pageName="Sign In" /> */}
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">
@@ -172,7 +202,7 @@ const SignIn: React.FC = () => {
                 Sign In to TailAdmin
               </h2>
 
-              <form>
+              <form onSubmit={handleLogin}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
@@ -180,6 +210,9 @@ const SignIn: React.FC = () => {
                   <div className="relative">
                     <input
                       type="email"
+                      name="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
@@ -211,6 +244,9 @@ const SignIn: React.FC = () => {
                   <div className="relative">
                     <input
                       type="password"
+                      name="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       placeholder="6+ Characters, 1 Capital letter"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
