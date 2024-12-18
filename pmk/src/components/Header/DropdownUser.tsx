@@ -60,7 +60,7 @@ const DropdownUser = () => {
           <span className="block text-sm font-medium text-black dark:text-white">
             {user ? user.username : "Loading..."}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs">{user ? user.role : ""}</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
