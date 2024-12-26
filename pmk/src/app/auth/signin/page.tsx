@@ -35,7 +35,7 @@ const SignIn: React.FC = () => {
       document.cookie = `token=${token}; path=/; secure; SameSite=Strict`;
 
       // Redirect based on role
-      if (role === 'admin') {
+      if (role === "ADMIN") {
         router.push("/"); // Admin will be redirected to the dashboard
       } else {
         router.push("/forms/form-elements"); // Non-admins will be redirected to a different page
