@@ -142,8 +142,30 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           ),
           label: "Laporan Stok",
           route: "/laporan-stock",
-          // children: [{ label: "Grafik", route: "/" }],
         },
+        ...(user?.role === "ADMIN"
+          ? [
+            {
+              icon: (
+                <svg
+                  className="fill-current"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9 1.5C7.067 1.5 5.5 3.067 5.5 5C5.5 6.933 7.067 8.5 9 8.5C10.933 8.5 12.5 6.933 12.5 5C12.5 3.067 10.933 1.5 9 1.5ZM9 10C6.239 10 1.5 11.291 1.5 14V16H16.5V14C16.5 11.291 11.761 10 9 10Z"
+                    fill=""
+                  />
+                </svg>
+              ),
+              label: "Data User",
+              route: "/user",
+            },
+          ]
+          : []),
       ],
     },
   ];
