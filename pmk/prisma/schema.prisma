@@ -18,6 +18,24 @@ enum Category {
   ACCESSORIES
 }
 
+model BarangMasuk {
+  id           Int      @id @default(autoincrement()) // Primary key dengan auto increment
+  nama_barang  String
+  jumlah       Int
+  supplier     String
+  tanggal_masuk DateTime
+}
+
+model BarangKeluar {
+  id             Int      @id @default(autoincrement())
+  nama_barang    String
+  jumlah         Int
+  harga          Float
+  penerima       String
+  tanggal_keluar DateTime @default(now())
+}
+
+
 model User {
   user_id        Int             @id @default(autoincrement())
   username       String          @unique
