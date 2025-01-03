@@ -1,26 +1,28 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    const { nama_barang, jumlah, supplier, tanggal_masuk } = req.body;
+export async function GET() {
+  try {
+    const data = await prisma.barangMasuk.findMany();
+    return NextResponse.json(data, { status: 200 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
 
-    try {
-      const newBarangMasuk = await prisma.barangMasuk.create({
-        data: {
-          nama_barang,
-          jumlah,
-          supplier,
-          tanggal_masuk: new Date(tanggal_masuk), // Convert tanggal_masuk to Date object
-        },
-      });
-      return res.status(201).json(newBarangMasuk);
-    } catch (error) {
-      return res.status(500).json({ error: 'Failed to create barang masuk' });
-    }
-  } else {
-    return res.status(405).json({ error: 'Method Not Allowed' });
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { nama_barang, jumlah, supplier, tanggal_masuk } = body;
+
+    const newBarangMasuk = await prisma.barangMasuk.create({
+      data: { nama_barang, jumlah, supplier, tanggal_masuk: new Date(tanggal_masuk) },
+    });
+
+    return NextResponse.json(newBarangMasuk, { status: 201 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
