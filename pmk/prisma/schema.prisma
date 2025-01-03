@@ -18,21 +18,35 @@ enum Category {
   ACCESSORIES
 }
 
+model Product {
+  id          Int          @id @default(autoincrement()) // Primary key dengan auto increment
+  nama_produk String       // Nama produk
+  harga       Float        // Harga produk
+  stock       Int          @default(0) // Stok produk dengan default 0
+  deskripsi   String       // Deskripsi produk
+  barang_masuk BarangMasuk[] // Relasi ke tabel BarangMasuk
+  barang_keluar BarangKeluar[] // Relasi ke tabel BarangKeluar
+}
+
 model BarangMasuk {
   id           Int      @id @default(autoincrement()) // Primary key dengan auto increment
-  nama_barang  String
-  jumlah       Int
-  supplier     String
-  tanggal_masuk DateTime
+  id_produk    Int      // ID produk yang masuk
+  nama_barang  String   // Nama barang
+  jumlah       Int      // Jumlah barang masuk
+  supplier     String   // Nama supplier
+  tanggal_masuk DateTime // Tanggal barang masuk
+  produk       Product  @relation(fields: [id_produk], references: [id]) // Relasi ke tabel Product
 }
 
 model BarangKeluar {
-  id             Int      @id @default(autoincrement())
-  nama_barang    String
-  jumlah         Int
-  harga          Float
-  penerima       String
-  tanggal_keluar DateTime @default(now())
+  id             Int      @id @default(autoincrement()) // Primary key dengan auto increment
+  id_produk      Int      // ID produk yang keluar
+  nama_barang    String   // Nama barang
+  jumlah         Int      // Jumlah barang keluar
+  harga          Float    // Harga barang
+  penerima       String   // Nama penerima
+  tanggal_keluar DateTime @default(now()) // Tanggal barang keluar
+  produk         Product  @relation(fields: [id_produk], references: [id]) // Relasi ke tabel Product
 }
 
 
@@ -46,26 +60,6 @@ model User {
   created_at     DateTime        @default(now())
   updated_at     DateTime        @updatedAt
 
-  // Relationship
-  penjualan      Penjualan[]
-  inventory_logs InventoryLog[]
-  sales          Sale[]
-}
-
-model Product {
-  product_id   Int       @id @default(autoincrement())
-  product_name String
-  category     Category
-  price        Decimal   @db.Decimal(10, 2)
-  stock        Int       @default(0)
-  description  String?
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
-
-  // Relationship
-  penjualan_items   PenjualanItem[]
-  inventory_logs    InventoryLog[]
-  sales             Sale[]
 }
 
 model Sale {
@@ -76,10 +70,6 @@ model Sale {
   totalPrice  Float
   createdAt   DateTime @default(now())
 
-  // Relasi ke Product
-  product Product @relation(fields: [productId], references: [product_id])
-  // Relasi ke User
-  user    User    @relation(fields: [userId], references: [user_id])
 }
 
 model InventoryLog {
@@ -90,17 +80,12 @@ model InventoryLog {
   action      String
   createdAt   DateTime @default(now())
 
-  product Product @relation(fields: [productId], references: [product_id])
-  user    User?   @relation(fields: [userId], references: [user_id])
 }
 
 model Penjualan {
   id          Int      @id @default(autoincrement())
   userId      Int
   createdAt   DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [user_id])
-  items PenjualanItem[]
 }
 
 model PenjualanItem {
@@ -108,7 +93,4 @@ model PenjualanItem {
   penjualanId Int
   productId   Int
   quantity    Int
-
-  penjualan Penjualan @relation(fields: [penjualanId], references: [id])
-  product   Product    @relation(fields: [productId], references: [product_id])
 }
